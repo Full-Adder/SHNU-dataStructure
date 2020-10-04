@@ -1,6 +1,6 @@
-//12. Ҫ��ѭ�����в���ʧһ���ռ�ȫ�����ܵõ����ã�����һ����־��tag��
-//��tagΪ0��1������ͷβָ����ͬʱ�Ķ���״̬�����д��˽ṹ��Ӧ�����������㷨��
-//ѭ�����е����������뺯��ԭ��������ʾ
+//12. 要求循环队列不损失一个空间全部都能得到利用，设置一个标志量tag，
+//以tag为0或1来区分头尾指针相同时的队列状态，请编写与此结构相应的入队与出队算法。
+//循环队列的类型声明与函数原型如下所示
 #define  QueueElementType int
 #define MAXSIZE 5
 #define ERROR	0
@@ -9,22 +9,22 @@
 #include<stdio.h>
 
 typedef struct SeqQueue{
-	QueueElementType  element[MAXSIZE];  /* ���е�Ԫ�ؿռ�*/
-	int front;  /*ͷָ��ָʾ��*/
-	int rear;  /*βָ��ָʾ��*/
-	int tag;/*���front��rear��ʾ��ǰջ�ջ���*/
-	/*front==rear &&tag==1��ʾ����front==rear &&tag==0��ʾ��*/
+	QueueElementType  element[MAXSIZE];  /* 队列的元素空间*/
+	int front;  /*头指针指示器*/
+	int rear;  /*尾指针指示器*/
+	int tag;/*结合front和rear表示当前栈空或满*/
+	/*front==rear &&tag==1表示满，front==rear &&tag==0表示空*/
 }SeqQueue;
 
-//��ʼ��
+//初始化
 void InitQueue(SeqQueue *Q){
 	Q->front=Q->rear=Q->tag=0;
 } 
 
-/*��Ӳ���*/
+/*入队操作*/
 int EnterQueue(SeqQueue *Q, QueueElementType x){
 	  if(Q->front==Q->rear&&Q->tag==1){
-	  	printf("�������޷����\n");
+	  	printf("表满，无法入队\n");
 	  	return ERROR;
 	  }
 	  else{
@@ -36,10 +36,10 @@ int EnterQueue(SeqQueue *Q, QueueElementType x){
 	  }
 }
 
-/*���Ӳ���*/ 
+/*出队操作*/ 
 int DeleteQueue(SeqQueue *Q, QueueElementType *x){
 	if(Q->front==Q->rear&&Q->tag==0){
-		printf("�ձ����޷�����\n");
+		printf("空表，无法出队\n");
 		return ERROR; 
 	}
 	else{
@@ -71,7 +71,7 @@ int main(){
 		}
 		else{
 			if(DeleteQueue(&a,&x))
-			printf("ɾ��%d\n",x);
+			printf("删除%d\n",x);
 		}
 		PrintSeq(a);
 		scanf("%d",&x);
